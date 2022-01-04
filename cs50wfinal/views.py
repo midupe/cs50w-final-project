@@ -4,23 +4,35 @@ import random, string
 
 from .models import *
 
-def create_url(request, url):
-    user = request.user if request.user.is_authenticated else None
-    letters = string.ascii_lowercase
 
-    try:
-        u = Url(url=url, shorten=''.join(random.choice(letters) for i in range(10)), user=user)
-        u.save()
-    except:
-        #retry if shorten generate gives already exists
-        u = Url(url=url, shorten=''.join(random.choice(letters) for i in range(10)), user=user)
-        u.save()
+  
+
 
 def index(request):
     results = {}
 
     if request.method == "POST":
-        create_url(request, request.POST["url"])
+        url = request.POST["url"]
+        letters = string.ascii_lowercase
+
+        if request.user.is_authenticated:
+            user = request.user 
+            u = Url(url=url, shorten=''.join(random.choice(letters) for i in range(10)), user=user)   
+            u.save()
+        else:
+            if request.COOKIES.get('UserNotSignIn'):
+                u = Url(url=url, shorten=''.join(random.choice(letters) for i in range(10)), userNotSignIn=UserNotSignIn.objects.get(cookie=int(request.COOKIES.get('UserNotSignIn'))))   
+                u.save() 
+            else:
+                user_cookie = UserNotSignIn()
+                user_cookie.save()
+                u = Url(url=url, shorten=''.join(random.choice(letters) for i in range(10)), userNotSignIn=user_cookie)   
+                u.save()
+
+                response = HttpResponseRedirect('#')
+                response.set_cookie('UserNotSignIn', int(user_cookie.cookie), max_age=9000000000)
+                return response
+
     return render(request, "index.html", results)
 
 def login(request):
