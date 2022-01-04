@@ -23,26 +23,26 @@
         <table class="table" style="table-layout: fixed; width: 100%;">
             <thead>
                 <tr>
-                    <th scope="col">Url</th>
+                    <th scope="col" colspan="2">Url</th>
                     <th scope="col">Shorten</th>
                     <th scope="col">Visits</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in urls %}
-                <tr >
-                    <th scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">
+                <tr>
+                    <th scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;" colspan="2">
                         {{item.url|slice:"0:35"}}
                         {% if item.url|length > 35 %}
                         ...
                         {% endif %}
                     </th>
-                    <td onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">/{{item.shorten}}</td>
+                    <td style="cursor: pointer;"><a href="{{item.shorten}}" target="_blank" style="text-decoration: none;">/{{item.shorten}}</a></td>
                     <th>
                         {% if request.user.is_authenticated %}
                         {{item.visits}}
                         {% else %}
-                        <a href="/login">Sign in</a>
+                        <a href="/login">Sign in required</a>
                         {% endif %}
                     </th>
                 </tr>

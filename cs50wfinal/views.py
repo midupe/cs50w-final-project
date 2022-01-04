@@ -1,4 +1,5 @@
 from django.http.response import Http404, HttpResponseRedirect, HttpResponse, JsonResponse
+from django.contrib.auth import authenticate, login, logout, get_user
 from django.shortcuts import render
 import random, string
 
@@ -59,3 +60,9 @@ def shorten(request,shorten):
         return HttpResponseRedirect(url)
     except:
         return HttpResponse("<h1>Nothing Found</h1><h2>404</h2>")
+
+def logout_view(request):
+    logout(request)
+    response = HttpResponseRedirect('/')
+    response.delete_cookie('UserNotSignIn')
+    return response
