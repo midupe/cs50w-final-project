@@ -1,0 +1,1 @@
+cmd /k "cd /d .\venv\Scripts & activate & cd /d ..\.. & python manage.py runserver 0.0.0.0:8000 --insecure"
