@@ -18,6 +18,34 @@
         </div>
     </div>
     <div class="spacer"></div>
+    <div class="card" style="width: 36rem; padding: 20px;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Url</th>
+                    <th scope="col">Shorten</th>
+                    <th scope="col">Visits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in urls %}
+                <tr >
+                    <th scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">{{item.url}}</th>
+                    <td onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">/{{item.shorten}}</td>
+
+                    <th>
+                        {% if request.user.is_authenticated %}
+                        {{item.visits}}
+                        {% else %}
+                        <a href="/login">Sign in</a>
+                        {% endif %}
+                    </th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="spacer"></div>
     <div class="card" style="width: 36rem;">
         <div class="card-body">
             <h5 class="card-title">Access all features</h5>
@@ -28,9 +56,16 @@
             </a>
         </div>
     </div>
-
 </div>
 
+<script>
+    function copyClipboard(text) {
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(text);
 
+        /* Alert the copied text */
+        alert("Url copied to clipboard");
+    }
+</script>
 
 {% endblock %}

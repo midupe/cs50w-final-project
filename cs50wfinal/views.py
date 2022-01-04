@@ -4,7 +4,7 @@ import random, string
 
 from .models import *
 
-
+host = "http://localhost:8000/"
   
 
 
@@ -29,9 +29,17 @@ def index(request):
                 u = Url(url=url, shorten=''.join(random.choice(letters) for i in range(10)), userNotSignIn=user_cookie)   
                 u.save()
 
-                response = HttpResponseRedirect('#')
+                response = HttpResponseRedirect('/')
                 response.set_cookie('UserNotSignIn', int(user_cookie.cookie), max_age=9000000000)
                 return response
+
+    if request.user.is_authenticated:
+        urls = Url.objects.filter(user = request.user)
+    else:
+        urls = Url.objects.filter(userNotSignIn = UserNotSignIn.objects.get(cookie=int(request.COOKIES.get('UserNotSignIn'))))
+
+    results["urls"] = list(urls)
+    results["host"] = host
 
     return render(request, "index.html", results)
 
