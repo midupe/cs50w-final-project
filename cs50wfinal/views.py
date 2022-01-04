@@ -36,7 +36,10 @@ def index(request):
     if request.user.is_authenticated:
         urls = Url.objects.filter(user = request.user)
     else:
-        urls = Url.objects.filter(userNotSignIn = UserNotSignIn.objects.get(cookie=int(request.COOKIES.get('UserNotSignIn'))))
+        try:
+            urls = Url.objects.filter(userNotSignIn = UserNotSignIn.objects.get(cookie=int(request.COOKIES.get('UserNotSignIn'))))
+        except:
+            urls = []
 
     results["urls"] = list(urls)
     results["host"] = host

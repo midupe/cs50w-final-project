@@ -17,9 +17,10 @@
             </form>
         </div>
     </div>
+    {% if urls|length > 0 %}
     <div class="spacer"></div>
     <div class="card" style="width: 36rem; padding: 20px;">
-        <table class="table">
+        <table class="table" style="table-layout: fixed; width: 100%;">
             <thead>
                 <tr>
                     <th scope="col">Url</th>
@@ -30,9 +31,13 @@
             <tbody>
                 {% for item in urls %}
                 <tr >
-                    <th scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">{{item.url}}</th>
+                    <th scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">
+                        {{item.url|slice:"0:35"}}
+                        {% if item.url|length > 35 %}
+                        ...
+                        {% endif %}
+                    </th>
                     <td onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;">/{{item.shorten}}</td>
-
                     <th>
                         {% if request.user.is_authenticated %}
                         {{item.visits}}
@@ -45,6 +50,7 @@
             </tbody>
         </table>
     </div>
+    {% endif %}
     <div class="spacer"></div>
     <div class="card" style="width: 36rem;">
         <div class="card-body">
