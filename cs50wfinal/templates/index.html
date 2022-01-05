@@ -7,13 +7,13 @@
     <div class="card" style="width: 36rem;">
         <div class="card-body">
             <h5 class="card-title">Shorten url</h5>
-            <form action="" method="POST">
+            <form action="" method="POST" id="shortenUrlForm">
                 {% csrf_token %}
                 <div class="mb-3">
                     <input type="url" class="form-control" id="url" placeholder="https://example.com" required
                         name="url" size="50">
                 </div>
-                <button type="submit" class="btn btn-primary" style="float: right;">Submit</button>
+                <button type="submit" class="btn btn-primary" style="float: right;" onclick="event.preventDefault(); submitShortenUrl();">Submit</button>
             </form>
         </div>
     </div>
@@ -65,15 +65,5 @@
     </div>
     {% endif %}
 </div>
-
-<script>
-    function copyClipboard(text) {
-        /* Copy the text inside the text field */
-        navigator.clipboard.writeText(text);
-
-        /* Alert the copied text */
-        alert("Url copied to clipboard");
-    }
-</script>
 
 {% endblock %}
