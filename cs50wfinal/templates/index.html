@@ -51,6 +51,7 @@
         </table>
     </div>
     {% endif %}
+    {% if not request.user.is_authenticated %}
     <div class="spacer"></div>
     <div class="card" style="width: 36rem;">
         <div class="card-body">
@@ -62,6 +63,7 @@
             </a>
         </div>
     </div>
+    {% endif %}
 </div>
 
 <script>

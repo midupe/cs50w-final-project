@@ -1,6 +1,7 @@
-from django.http.response import Http404, HttpResponseRedirect, HttpResponse, JsonResponse
-from django.contrib.auth import authenticate, login, logout, get_user
+from django.http.response import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
+from django.db import IntegrityError
 import random, string
 
 from .models import *
@@ -47,9 +48,51 @@ def index(request):
 
     return render(request, "index.html", results)
 
-def login(request):
-    results = {}
-    return render(request, "login.html", results)
+def login_view(request):
+    if request.method == "POST":
+
+        # Attempt to sign user in
+        username = request.POST["email"]
+        password = request.POST["password"]
+        user = authenticate(request, username=username, password=password)
+
+        # Check if authentication successful
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            return render(request, "login.html", {
+                "message": "Invalid username and/or password."
+            })
+    else:
+        return render(request, "login.html")
+
+def register(request):
+    if request.method == "POST":
+        username = request.POST["email"]
+        email = request.POST["email"]
+
+        # Ensure password matches confirmation
+        password = request.POST["password"]
+        confirmation = request.POST["confirmation"]
+        if password != confirmation:
+            return render(request, "register.html", {
+                "message": "Passwords must match."
+            })
+
+        # Attempt to create new user
+        try:
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            user = authenticate(request, username=username, password=password)
+        except IntegrityError:
+            return render(request, "register.html", {
+                "message": "Username already taken."
+            })
+        login(request, user)
+        return HttpResponseRedirect('/')
+    else:
+        return render(request, "register.html")
 
 def shorten(request,shorten):
     try:
@@ -59,7 +102,7 @@ def shorten(request,shorten):
         u.save()
         return HttpResponseRedirect(url)
     except:
-        return HttpResponse("<h1>Nothing Found</h1><h2>404</h2>")
+        return HttpResponseRedirect('/')
 
 def logout_view(request):
     logout(request)

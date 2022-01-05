@@ -21,3 +21,12 @@ html, body {
 .card {
     max-width: 90%;
 }
+
+.navbar-brand > img
+{
+    max-height: 32px;
+    margin-right: 10px;
+}
+.navbar-brand {
+    padding-right: 10px;
+}
