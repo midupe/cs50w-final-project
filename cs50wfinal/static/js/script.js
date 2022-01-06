@@ -51,8 +51,10 @@ function updateUrlsList() {
                     `;
                 }
             }
-            listUrls.innerHTML = newHtmlCode;
-            document.getElementById("listaDosURLS").style.display = "block";
+            if (results.results.urls.length > 0) {
+                listUrls.innerHTML = newHtmlCode;
+                document.getElementById("listaDosURLS").style.display = "block";
+            }
         });
 }
 
