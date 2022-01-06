@@ -1,4 +1,4 @@
-# cs50w-final-project
+# CS50W Final Project
 
 ## Distinctiveness and Complexity
 
@@ -11,3 +11,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 
 python manage.py runserver
+
+
+## Short url
+![Preview](short-url.gif)
