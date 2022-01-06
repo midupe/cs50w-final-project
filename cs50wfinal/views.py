@@ -2,17 +2,14 @@ from django.http.response import HttpResponseRedirect, HttpResponse, JsonRespons
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from django.db import IntegrityError
+from django.forms.models import model_to_dict
 import random, string
 
 from .models import *
 
 host = "http://localhost:8000/"
   
-
-
-def index(request):
-    results = {}
-
+def newUrl(request):
     if request.method == "POST":
         url = request.POST["url"]
         letters = string.ascii_lowercase
@@ -34,17 +31,34 @@ def index(request):
                 response = HttpResponseRedirect('/')
                 response.set_cookie('UserNotSignIn', int(user_cookie.cookie), max_age=9000000000)
                 return response
+    
+    return JsonResponse({"urlShorten": host + u.shorten})
+
+
+def index(request, isJs=0):
+    results = {}
 
     if request.user.is_authenticated:
-        urls = Url.objects.filter(user = request.user)
+        urls = Url.objects.filter(user = request.user).order_by('-id').values()
     else:
+        #create cookie if user not login and dont have cookie already
+        if not request.COOKIES.get('UserNotSignIn'):
+            user_cookie = UserNotSignIn()
+            user_cookie.save()
+            response = HttpResponseRedirect('/')
+            response.set_cookie('UserNotSignIn', int(user_cookie.cookie), max_age=9000000000)
+            return response
+
         try:
-            urls = Url.objects.filter(userNotSignIn = UserNotSignIn.objects.get(cookie=int(request.COOKIES.get('UserNotSignIn'))))
+            urls = Url.objects.filter(userNotSignIn = UserNotSignIn.objects.get(cookie=int(request.COOKIES.get('UserNotSignIn')))).order_by('-id').values()
         except:
             urls = []
 
     results["urls"] = list(urls)
     results["host"] = host
+
+    if isJs != 0:
+        return JsonResponse(data={'status': 'success', 'results': results}, status=200, safe=True)
 
     return render(request, "index.html", results)
 
