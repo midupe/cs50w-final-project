@@ -17,6 +17,30 @@ My webapp is as easy to use as possible with a minimalistic but great design and
 
 The main complexity of my capstone project was to create an algorithm that shortened the url. I used `random` with the ascii lowercase letters to create a unique string that allows the program to identify the original url.
 
+## Files and Directories
+- `config`: main application directory (has django settings, ...)
+- `cs50wfinal`: Shorten url application
+    - `static`: static files
+        - `css`: css files - used for styling
+        - `js`: js files - scripts used to improve UX
+        - `img`: images used on the design
+    - `templates`: website html templates
+        - `layout.html`: layout used on the index html
+        - `index.html`: homepage html file
+        - `signin_layout.html`: layout used on the login and register html
+        - `login.html`: login html page
+        - `register.html`: register html page
+    - `models.py`: used to create python classes and migrations that allow to create database tables
+    - `urls.py`: used to define the application urls and associate them with a view
+    - `views.py`: used to create the logical part of the website
+- `db.sqlite3`: database used in the application
+- `.gitignre`: ignore files for git
+- `manage.py`: python file that manages django application
+- `readme.md`: this file
+- `requirements.txt`: dependicies to run the app
+- `run.bat`: script to run the application on Windows
+- `short-url.gif`: Short url gif preview
+
 
 ## How to run?
 
