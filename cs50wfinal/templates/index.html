@@ -10,8 +10,7 @@
             <form action="newUrl" method="POST" id="shortenUrlForm">
                 {% csrf_token %}
                 <div class="mb-3">
-                    <input type="url" class="form-control" id="url" placeholder="https://example.com" required
-                        name="url" size="50">
+                    <input type="url" class="form-control" id="url" placeholder="https://example.com" required name="url">
                 </div>
                 <button type="submit" class="btn btn-primary" style="float: right;" onclick="event.preventDefault(); submitShortenUrl();">Submit</button>
             </form>
@@ -38,22 +37,23 @@
                 <tbody id="listUrls">
                     {% for item in urls %}
                     <tr>
-                        <th scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;" colspan="2">
+                        <td scope="row" onclick="copyClipboard('{{host}}{{item.shorten}}')" style="cursor: pointer;" colspan="2">
                             
                             {% if item.url|length > 27 %}
                                 {{item.url|slice:"0:27"}}...
                             {% else %}
                                 {{item.url|slice:"0:27"}}
                             {% endif %}
-                        </th>
-                        <td style="cursor: pointer;"><a href="{{item.shorten}}" target="_blank" style="text-decoration: none;">/{{item.shorten}}</a></td>
-                        <th>
+                        </td>
+                        <th style="cursor: pointer;"><a href="{{item.shorten}}" target="_blank" style="text-decoration: none;">/{{item.shorten}}</a></th>
+                        <td>
                             {% if request.user.is_authenticated %}
                             {{item.visits}}
                             {% else %}
-                            <a href="/login">Sign in required</a>
+                            <a href="/login" style="text-decoration: none; color: black;"><i class="far fa-eye-slash"></i></a>
                             {% endif %}
-                        </th>
+                            <i class="fas fa-copy" style="float: right; cursor: pointer !important;" aria-label="Copy" onclick="copyClipboard('{{host}}{{item.shorten}}')"></i>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -62,7 +62,7 @@
     </div>
     {% if not request.user.is_authenticated %}
     <div class="spacer"></div>
-    <div class="card" style="width: 36rem;">
+    <div class="card" style="width: 36rem;" id="accessFeatures">
         <div class="card-body">
             <h5 class="card-title">Access all features</h5>
             <p class="card-text">Login or register to know how many people clicked your shortened urls and more!</p>

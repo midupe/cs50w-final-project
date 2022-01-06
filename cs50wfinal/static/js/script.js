@@ -29,22 +29,24 @@ function updateUrlsList() {
                 }
                 newHtmlCode += `
                 <tr>
-                    <th scope="row" onclick="copyClipboard('${results.results.host}${results.results.urls[i].shorten}')" style="cursor: pointer;" colspan="2">
+                    <td scope="row" onclick="copyClipboard('${results.results.host}${results.results.urls[i].shorten}')" style="cursor: pointer;" colspan="2">
                         ${results.results.urls[i].url}
-                    </th>
-                    <td style="cursor: pointer;"><a href="${results.results.host}${results.results.urls[i].shorten}" target="_blank" style="text-decoration: none;">/${results.results.urls[i].shorten}</a></td>
+                    </td>
+                    <th style="cursor: pointer;"><a href="${results.results.host}${results.results.urls[i].shorten}" target="_blank" style="text-decoration: none;">/${results.results.urls[i].shorten}</a></th>
                     `;
                 if (results.results.urls[i].userNotSignIn_id == null) {
                     newHtmlCode += `
-                        <th>
+                        <td>
                             ${results.results.urls[i].visits}
-                        </th>
+                            <i class="fas fa-copy" style="float: right; cursor: pointer !important;" aria-label="Copy" onclick="copyClipboard('${results.results.host}${results.results.urls[i].shorten}')"></i>
+                        </td>
                     `;
                 } else {
                     newHtmlCode += `
-                        <th>
-                        <a href="/login">Sign in required</a>
-                        </th>
+                        <td>
+                        <a href="/login" style="text-decoration: none; color: black;"><i class="far fa-eye-slash"></i></a>
+                        <i class="fas fa-copy" style="float: right; cursor: pointer !important;" aria-label="Copy" onclick="copyClipboard('${results.results.host}${results.results.urls[i].shorten}')"></i>
+                        </td>
                     </tr>
                     `;
                 }
@@ -57,10 +59,12 @@ function updateUrlsList() {
 
 document.addEventListener("DOMContentLoaded", function (event) {
     try {
-        var intervalID = window.setInterval(myCallback, 3000);
+        if (document.getElementById("accessFeatures") == null) {
+            var intervalID = window.setInterval(myCallback, 3000);
 
-        function myCallback() {
-            updateUrlsList();
+            function myCallback() {
+                updateUrlsList();
+            }
         }
     } catch {
         //pass
