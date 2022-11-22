@@ -1,7 +1,7 @@
 # Harvard CS50W Final Project
 
 ## Short url
-[![Preview](short-url.gif)](http://www.youtube.com/watch?v=uu5KjLGIfCk "Final Project - Capstone - Web50 - CS50W")
+[![Preview](short-url.gif)](http://www.youtube.com/watch?v=uu5KjLGIfCk)
 
 ## Distinctiveness and Complexity
 
