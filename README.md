@@ -54,4 +54,4 @@ The main complexity of my capstone project was to create an algorithm that short
 
 
 ## Short url
-![Preview](short-url.gif)
+[![Preview](short-url.gif)](http://www.youtube.com/watch?v=uu5KjLGIfCk "Final Project - Capstone - Web50 - CS50W")
