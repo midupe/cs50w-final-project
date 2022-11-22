@@ -1,5 +1,8 @@
 # CS50W Final Project
 
+## Short url
+[![Preview](short-url.gif)](http://www.youtube.com/watch?v=uu5KjLGIfCk "Final Project - Capstone - Web50 - CS50W")
+
 ## Distinctiveness and Complexity
 
 This is my cs50w final project. I developed a URL shortening webapp using Python, JavaScript, HTML, CSS and SQL with the Django framework.
@@ -51,7 +54,3 @@ The main complexity of my capstone project was to create an algorithm that short
 `pip install -r requirements.txt`
 
 `python manage.py runserver`
-
-
-## Short url
-[![Preview](short-url.gif)](http://www.youtube.com/watch?v=uu5KjLGIfCk "Final Project - Capstone - Web50 - CS50W")
